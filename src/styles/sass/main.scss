@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+input {
+    outline: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+ol,
+ul {
+    list-style-type: none;
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+button {
+    cursor: pointer;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    background-color: rgba(13, 7, 20, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.todoCard {
+    width: 45%;
+    height: auto;
+    border-radius: 20px;
+    background-color: rgba(29, 24, 37, 1);
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+.newTask {
+    width: 80%;
+    height: 45px;
+    display: flex;
+    justify-content: space-around;
+    margin: 40px auto 0;
+    align-items: center;
+}
+
+label {
+    width: 85%;
+    height: 80%;
+    align-items: center;
+    display: flex;
+}
+
+#newTask {
+    width: 100%;
+    border: 1px solid rgba(158, 120, 207, 1);
+    background-color: rgba(29, 24, 37, 1);
+    color: rgba(119, 119, 119, 1);
+    line-height: 19.36px;
+    border-radius: 10px;
+    font-weight: 400;
+    padding: 7px;
+    font-size: 16px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+.addButton {
+    width: 8%;
+    height: 80%;
+    border-radius: 10px;
+    align-items: center;
+    text-align: center;
+    border: none;
+    background-color: rgba(158, 120, 207, 1);
+    color: rgba(255, 255, 255, 1);
+    padding: 6px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+
+    i {
+        font-size: 18px;
+        padding-top: 3px;
+    }
+}
+
+.addButton:disabled {
+    background-color: rgb(196, 178, 219);
+}
+
+@media screen and (max-width:1024px) {
+    .newTask {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .addButton {
+        width: 85%;
+        margin-top: 5px;
+    }
+
+    .addButton i {
+        font-size: 20px;
+        padding-top: 4px;
+    }
+}
+
+.tasks {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin: 40px auto 25px;
+
+    .numberOfTask {
+        color: white;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19.36px;
+        margin-bottom: 15px;
+    }
+
+    ul {
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    li {
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: space-between;
+        background-color: rgba(21, 16, 28, 1);
+        color: rgba(158, 120, 207, 1);
+        padding: 20px;
+        border-radius: 10px;
+        align-items: center;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+    }
+
+    li p {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19.36px;
+        cursor: pointer;
+    }
+
+    .btns {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btns button {
+        border: none;
+        padding: 5px;
+        background-color: inherit;
+        color: rgba(158, 120, 207, 1);
+        font-size: 18px;
+    }
+
+    #checkButton:hover {
+        color: lime;
+    }
+
+    #deleteButton:hover {
+        color: blue;
+    }
+}
+
+
+.doneTasks {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin: 40px auto 25px;
+
+    .numberOfTask {
+        color: white;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19.36px;
+        margin-bottom: 15px;
+    }
+
+    ul {
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+    }
+
+    li {
+        width: 100%;
+        height: auto;
+        display: flex;
+        justify-content: space-between;
+        background-color: rgba(21, 16, 28, 1);
+        color: rgba(120, 207, 176, 1);
+        padding: 20px;
+        text-decoration: line-through;
+        border-radius: 10px;
+        align-items: center;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+    }
+
+    li p {
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19.36px;
+        cursor: pointer;
+    }
+}
