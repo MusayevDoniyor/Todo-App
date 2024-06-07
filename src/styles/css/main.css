@@ -176,6 +176,27 @@ label {
   color: blue;
 }
 
+.clearButton {
+  width: 50%;
+  height: auto;
+  margin: 20px auto;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 19.36px;
+  border-radius: 10px;
+  border: none;
+  align-items: center;
+  text-align: center;
+  border: none;
+  background-color: rgb(158, 120, 207);
+  color: rgb(255, 255, 255);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
 .doneTasks {
   width: 80%;
   display: flex;
@@ -215,6 +236,40 @@ label {
   font-size: 16px;
   line-height: 19.36px;
   cursor: pointer;
+}
+.doneTasks .btns button {
+  border: none;
+  padding: 5px;
+  background-color: inherit;
+  color: rgb(158, 120, 207);
+  font-size: 18px;
+}
+
+.custom-abbr {
+  position: relative;
+  text-decoration: none;
+}
+
+.custom-abbr::after {
+  content: attr(title);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.custom-abbr:hover::after {
+  opacity: 1;
+  visibility: visible;
 }
 
 /*# sourceMappingURL=main.css.map */

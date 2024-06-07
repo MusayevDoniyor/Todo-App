@@ -1,47 +1,98 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 
 const init = [
   {
     id: 1,
     title: "Buy groceries",
     done: false,
+    addedAt: new Date().toLocaleString(),
+    checkedAt: null,
+    deletedAt: null,
   },
   {
     id: 2,
     title: "Walk the dog",
     done: true,
+    addedAt: new Date().toLocaleString(),
+    checkedAt: new Date().toLocaleString(),
+    deletedAt: null,
   },
   {
     id: 3,
     title: "Complete homework",
     done: false,
+    addedAt: new Date().toLocaleString(),
+    checkedAt: null,
+    deletedAt: null,
   },
   {
     id: 4,
     title: "Read a book",
     done: true,
+    addedAt: new Date().toLocaleString(),
+    checkedAt: new Date().toLocaleString(),
+    deletedAt: null,
   },
   {
     id: 5,
     title: "Exercise",
     done: false,
+    addedAt: new Date().toLocaleString(),
+    checkedAt: null,
+    deletedAt: null,
   },
 ];
 
-const todo = () => {
-  const [todos, setTodos] = useState(init);
+const Todo = () => {
+  const [todos, setTodos] = useState(() => {
+    const savedTodos = localStorage.getItem("todos");
+    return savedTodos ? JSON.parse(savedTodos) : init;
+  });
   const [text, setText] = useState("");
 
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
   const deleteTodo = (id) => {
-    const newTodos = todos.filter((t) => t.id !== id);
-    setTodos(newTodos);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const newTodos = todos.map((todo) =>
+          todo.id === id
+            ? { ...todo, deletedAt: new Date().toLocaleString() }
+            : todo
+        );
+        setTodos(newTodos);
+        setTimeout(() => {
+          const filteredTodos = newTodos.filter((t) => t.id !== id);
+          setTodos(filteredTodos);
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your task has been deleted.",
+            icon: "success",
+          });
+        }, 500);
+      }
+    });
   };
 
-  const addNewTodo = (event) => {
+  const addNewTodo = () => {
     const newTodo = {
       id: Date.now(),
       title: text,
       done: false,
+      addedAt: new Date().toLocaleString(),
+      checkedAt: null,
+      deletedAt: null,
     };
 
     const newTodos = [...todos, newTodo];
@@ -49,20 +100,59 @@ const todo = () => {
     setText("");
   };
 
-  const handeKeyDown = (event) => {
+  const handleKeyDown = (event) => {
     if (event.key === "Enter" && text.trim() !== "") {
-      addNewTodo(event);
+      addNewTodo();
     }
   };
 
   const toggleTodoStatus = (id) => {
     const updatedTodos = todos.map((todo) => {
       if (todo.id === id) {
-        return { ...todo, done: !todo.done };
+        return {
+          ...todo,
+          done: !todo.done,
+          checkedAt: new Date().toLocaleString(),
+        };
       }
       return todo;
     });
     setTodos(updatedTodos);
+  };
+
+  const undoCheck = (id) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, done: false, checkedAt: new Date().toLocaleString() };
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  };
+
+  const clearTodos = () => {
+    if (todos.length === 0) {
+      return;
+    }
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, clear all!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setTodos([]);
+        Swal.fire({
+          title: "Cleared!",
+          text: "All tasks have been cleared.",
+          icon: "success",
+        });
+      }
+    });
   };
 
   const doneTodos = todos.filter((t) => t.done);
@@ -78,7 +168,7 @@ const todo = () => {
             name="newTask"
             placeholder="Add a new task"
             onChange={(event) => setText(event.target.value)}
-            onKeyDown={handeKeyDown}
+            onKeyDown={handleKeyDown}
             value={text}
           />
         </label>
@@ -99,8 +189,14 @@ const todo = () => {
         <ul>
           {todosTodo.map((t) => (
             <li key={t.id}>
-              <p>{t.title}</p>
-
+              <abbr
+                className="custom-abbr"
+                title={`Added: ${t.addedAt || "Start of the project"}${
+                  t.checkedAt ? ` | Last Checked: ${t.checkedAt}` : ""
+                }`}
+              >
+                <p>{t.title}</p>
+              </abbr>
               <div className="btns">
                 <button
                   type="submit"
@@ -120,6 +216,10 @@ const todo = () => {
             </li>
           ))}
         </ul>
+
+        <button type="submit" className="clearButton" onClick={clearTodos}>
+          Clear
+        </button>
       </div>
 
       <div className="doneTasks">
@@ -128,7 +228,24 @@ const todo = () => {
         <ul>
           {doneTodos.map((t) => (
             <li key={t.id}>
-              <p>{t.title}</p>
+              <abbr
+                className="custom-abbr"
+                title={`Added: ${t.addedAt || "Start of the project"}${
+                  t.checkedAt ? ` | Last Checked: ${t.checkedAt}` : ""
+                }`}
+              >
+                <p>{t.title}</p>
+              </abbr>
+
+              <div className="btns">
+                <button
+                  type="submit"
+                  id="undoButton"
+                  onClick={() => undoCheck(t.id)}
+                >
+                  <i className="pi pi-undo"></i>
+                </button>
+              </div>
             </li>
           ))}
         </ul>
@@ -137,4 +254,4 @@ const todo = () => {
   );
 };
 
-export default todo;
+export default Todo;
